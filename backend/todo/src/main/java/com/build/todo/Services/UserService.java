@@ -42,10 +42,10 @@ public class UserService {
         User u = userRepo.findById(user.getId()).orElseThrow(()-> new ResourceNotFoundException("User with id"+user.getId()+" not found for Updation."));
         u.setEmail(user.getEmail());
         u.setContactNo(user.getContactNo());
-        u.setFistName(user.getFistName());
+        u.setFirstName(user.getFirstName());
         u.setLastName(user.getLastName());
         u.setPassword(user.getPassword());
-        u.setTaskDetails(user.getTaskDetails());
+        u.setTask(user.getTask());
 
         userRepo.save(u);
 

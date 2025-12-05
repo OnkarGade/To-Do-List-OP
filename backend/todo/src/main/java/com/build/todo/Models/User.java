@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class User extends InfoModel{
 
     @Column(name="fist_name", length = 30)
-    private String fistName;
+    private String firstName;
 
     @Column(name="last_name", length = 30)
     private String lastName;
@@ -32,6 +32,6 @@ public class User extends InfoModel{
     private String contactNo;
 
     @Column(name = "task_details", length = 50)
-    private String taskDetails;
+    private String task;
 
 }
