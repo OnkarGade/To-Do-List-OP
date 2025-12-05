@@ -1,9 +1,11 @@
 package com.build.todo.Services;
 
 import com.build.todo.Dtos.ApiResponse;
+import com.build.todo.Dtos.UserDto;
 import com.build.todo.Exceptions.ResourceNotFoundException;
 import com.build.todo.Models.User;
 import com.build.todo.Repositories.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class UserService {
     @Autowired
     UserRepository userRepo;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     public List<User> getUsers(){
         return userRepo.findAll();
     }
@@ -24,7 +29,8 @@ public class UserService {
         return new ApiResponse<>(HttpStatus.FOUND.value(), "Found The Resource", userRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("No User found with id "+id)));
     }
 
-    public ApiResponse<User> createUser(User user){
+    public ApiResponse<User> createUser(UserDto userDto){
+        User user = modelMapper.map(userDto, User.class);
         user.setAvailable(true);
         userRepo.save(user);
         return new ApiResponse<>(HttpStatus.CREATED.value(),"User Created Successfully", user);
@@ -37,8 +43,9 @@ public class UserService {
         return new ApiResponse<>(HttpStatus.OK.value(),"User Deleted Successfully", user);
     }
 
-    public ApiResponse<User> updateUser(User user){
+    public ApiResponse<User> updateUser(UserDto userDto){
 
+        User user = modelMapper.map(userDto, User.class);
         User u = userRepo.findById(user.getId()).orElseThrow(()-> new ResourceNotFoundException("User with id"+user.getId()+" not found for Updation."));
         u.setEmail(user.getEmail());
         u.setContactNo(user.getContactNo());
