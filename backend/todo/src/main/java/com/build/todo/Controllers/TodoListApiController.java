@@ -43,6 +43,4 @@ public class TodoListApiController {
         return ResponseEntity.status(HttpStatus.OK).body(todoListService.updateTask(task));
     }
 
-
-
 }

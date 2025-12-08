@@ -1,8 +1,10 @@
 package com.build.todo.Controllers;
 
 import com.build.todo.Dtos.ApiResponse;
+import com.build.todo.Dtos.UserDto;
 import com.build.todo.Models.User;
 import com.build.todo.Services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,14 +31,14 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<ApiResponse<User>> createUser(@RequestBody User user){
+    public ResponseEntity<ApiResponse<User>> createUser(@Valid @RequestBody UserDto userDto){
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userDto));
     }
 
     @PutMapping("/user")
-    public ResponseEntity<ApiResponse<User>> updateUser(@RequestBody User user){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(user));
+    public ResponseEntity<ApiResponse<User>> updateUser(@Valid @RequestBody UserDto userDto){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(userDto));
     }
 
     @DeleteMapping("/user/{id}")
