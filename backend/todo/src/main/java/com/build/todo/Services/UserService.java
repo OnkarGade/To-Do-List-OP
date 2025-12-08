@@ -40,8 +40,8 @@ public class UserService {
 
     public ApiResponse<User> deleteUser(Long id){
         User user = userRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("User with id"+id+" not found for deletion."));
-        user.setAvailable(false);
-        userRepo.save(user);
+//        user.setAvailable(false);
+        userRepo.deleteById(user.getId());
         return new ApiResponse<>(HttpStatus.OK.value(),"User Deleted Successfully", user);
     }
 

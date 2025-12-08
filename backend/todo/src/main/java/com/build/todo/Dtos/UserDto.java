@@ -25,8 +25,8 @@ public class UserDto {
     private String email;
 
     // Must be present and meet minimum security requirements
-    @NotBlank(message = "Password is required.")
-    @Size(min = 8, message = "Password must be at least 8 characters long.")
+//    @NotBlank(message = "Password is required.")
+//    @Size(min = 8, message = "Password must be at least 8 characters long.")
     private String password;
 
     // Optional: Can use @Pattern for specific contact number format/length
