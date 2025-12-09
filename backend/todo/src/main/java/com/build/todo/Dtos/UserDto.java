@@ -16,7 +16,7 @@ public class UserDto {
     @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters.")
     private String firstName;
 
-    @NotBlank(message = "Last name is required.")
+//    @NotBlank(message = "Last name is required.")
     private String lastName;
 
     // Must be a valid email format
@@ -30,7 +30,7 @@ public class UserDto {
     private String password;
 
     // Optional: Can use @Pattern for specific contact number format/length
-    @Size(max = 15, message = "Contact number cannot exceed 15 digits.")
+    @Size(max = 10, message = "Contact number cannot exceed 10 digits.")
     private String contactNo;
 
     // Assuming 'task' is not directly a user property but was added for a DTO test.

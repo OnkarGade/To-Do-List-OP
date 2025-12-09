@@ -28,7 +28,7 @@ public class User extends InfoModel{
     @Column(unique = true, length = 20)
     private String password;
 
-    @Column(name="contacts", length = 10,unique = true)
+    @Column(name="contacts", length = 10)
     private String contactNo;
 
     @Column(name = "task_details", length = 50)

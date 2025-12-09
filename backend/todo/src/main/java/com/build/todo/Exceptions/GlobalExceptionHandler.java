@@ -9,7 +9,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @ControllerAdvice
@@ -24,15 +26,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
 
-        // Collect all field errors into a map or list
-        Map<String, String> errors = new HashMap<>();
+        // 1. Collect all individual error messages into a List<String>
+        List<String> errorMessages = new ArrayList<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage()));
+                // Adding only the error message text
+                errorMessages.add(error.getDefaultMessage()));
 
+        // 2. Create a Map with the single, static key ("messages") pointing to the list of errors
+        Map<String, List<String>> errorDataPayload = new HashMap<>();
+        errorDataPayload.put("messages", errorMessages); // <-- FIXED KEY HERE
+
+        // 3. IMPORTANT: Ensure your ApiResponse constructor sets isSuccess to FALSE for 400 status.
         ApiResponse<Object> errorBody = new ApiResponse<>(
                 HttpStatus.BAD_REQUEST.value(), // 400 Bad Request
-                "Validation failed.",
-                errors // Pass the map of errors as the data payload
+                "Validation failed. Check 'data' for details.", // Updated main message
+                errorDataPayload // Pass the map with the static key
         );
 
         return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
@@ -48,12 +56,13 @@ public class GlobalExceptionHandler {
 
         // 1. IMPROVED LOGIC FOR EXTRACTING FIELD
         if (rootCause.contains("Duplicate entry")) {
+            System.out.println(rootCause);
             if (rootCause.contains("email")) {
                 userMessage = "A user with this email address already exists. Please use a different one.";
-            } else if (rootCause.contains("contactNo")) {
+            } else if (rootCause.contains("UK6k4ftquj3orb1mqaw40e0cn2o")) {
                 userMessage = "A user with this contact number already exists. Please use a different one.";
             } else {
-                userMessage = "The Email Or Contact No Are Already Present Used Once.";
+                userMessage = "The email or contact no are already present used once.";
             }
         } else {
             userMessage = "Database constraint violation occurred.";

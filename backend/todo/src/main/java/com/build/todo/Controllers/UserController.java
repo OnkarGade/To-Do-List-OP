@@ -25,7 +25,7 @@ public class UserController {
         return new ApiResponse<>(HttpStatus.OK.value(), "Request Has Been Processed Successfully", userService.getUsers());
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/user/{id}")//done
     public ResponseEntity<ApiResponse<User>> getUser(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUser(id));
     }
