@@ -26,11 +26,11 @@ public class ApiResponse<T> {
     }
 
     // Constructor for failed Response
-    public ApiResponse(Integer status, String message) {
+    public ApiResponse(Integer status, String message, T data, boolean isSuccess) {
         this.timestamp = LocalDateTime.now();
         this.status = status;
         this.message = message;
-        this.isSuccess = false;
-        this.data = null;
+        this.isSuccess = isSuccess;
+        this.data = data;
     }
 }

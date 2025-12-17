@@ -38,6 +38,13 @@ public class UserService {
         return new ApiResponse<>(HttpStatus.CREATED.value(),"User Created Successfully", user);
     }
 
+    public ApiResponse<User> softDeleteUser(Long id){
+        User user = userRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException(("User With Id"+id+" Not Found")));
+        user.setAvailable(false);
+        userRepo.save(user);
+        return new ApiResponse<>(HttpStatus.OK.value(), "User has been delete", user);
+    }
+
     public ApiResponse<User> deleteUser(Long id){
         User user = userRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("User with id"+id+" not found for deletion."));
 //        user.setAvailable(false);

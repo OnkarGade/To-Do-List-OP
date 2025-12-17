@@ -46,4 +46,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.deleteUser(id));
     }
 
+//    @DeleteMapping("/user/{id}")
+//    public ResponseEntity<ApiResponse<User>> softDeleteUser(@PathVariable Long id){
+//        return ResponseEntity.status(HttpStatus.OK).body(null);
+//    }
+
 }

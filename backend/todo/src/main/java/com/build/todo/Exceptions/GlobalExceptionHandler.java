@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiResponse<Object>> resourceNotFoundException(ResourceNotFoundException exc){
-        return new ResponseEntity<>(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),exc.getMessage() )
+        return new ResponseEntity<>(new ApiResponse<>(HttpStatus.NOT_FOUND.value(),exc.getMessage(), null, false )
                 ,HttpStatus.NOT_FOUND);
     }
 
@@ -39,8 +39,9 @@ public class GlobalExceptionHandler {
         // 3. IMPORTANT: Ensure your ApiResponse constructor sets isSuccess to FALSE for 400 status.
         ApiResponse<Object> errorBody = new ApiResponse<>(
                 HttpStatus.BAD_REQUEST.value(), // 400 Bad Request
-                "Validation failed. Check 'data' for details.", // Updated main message
-                errorDataPayload // Pass the map with the static key
+                errorMessages.get(0), // Updated main message
+                null, // Pass the map with the static key,
+                false
         );
 
         return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
@@ -71,7 +72,10 @@ public class GlobalExceptionHandler {
         // 2. USE THE ERROR CONSTRUCTOR / Ensure isSuccess is FALSE
         ApiResponse<Object> errorBody = new ApiResponse<>(
                 HttpStatus.CONFLICT.value(), // 409 CONFLICT
-                userMessage // The specific, user-friendly message
+                userMessage,
+                null,
+                false
+                // The specific, user-friendly message
                 // Note: If you use the constructor with only status and message,
                 // your DTO must be coded to set isSuccess=false and data=null.
         );
