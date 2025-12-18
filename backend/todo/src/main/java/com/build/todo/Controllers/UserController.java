@@ -36,9 +36,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userDto));
     }
 
-    @PutMapping("/user")
-    public ResponseEntity<ApiResponse<User>> updateUser(@Valid @RequestBody UserDto userDto){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(userDto));
+    @PutMapping("/user/{id}")
+    public ResponseEntity<ApiResponse<User>> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(userDto, id));
     }
 
     @DeleteMapping("/user/{id}")

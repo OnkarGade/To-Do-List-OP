@@ -52,10 +52,10 @@ public class UserService {
         return new ApiResponse<>(HttpStatus.OK.value(),"User Deleted Successfully", user);
     }
 
-    public ApiResponse<User> updateUser(UserDto userDto){
+    public ApiResponse<User> updateUser(UserDto userDto, Long id){
 
         User user = modelMapper.map(userDto, User.class);
-        User u = userRepo.findById(user.getId()).orElseThrow(()-> new ResourceNotFoundException("User with id"+user.getId()+" not found for Updation."));
+        User u = userRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("User with id"+user.getId()+" not found for Updation."));
         u.setEmail(user.getEmail());
         u.setContactNo(user.getContactNo());
         u.setFirstName(user.getFirstName());
